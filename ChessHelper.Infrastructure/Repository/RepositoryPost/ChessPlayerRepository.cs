@@ -26,15 +26,19 @@ namespace ChessHelper.Infrastructure.Repository.RepositoryPost
             else Debug.WriteLine("База данных уже существует");*/
         }
 
-        public bool AddChessPlayer(ChessPlayer chessPlayer)
+        public async Task<bool> AddChessPlayer(ChessPlayer chessPlayer)
         {
-            
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteChessPlaeyr(int id)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                await DbContext.ChessPlayers.AddAsync(chessPlayer);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public IList<ChessPlayer> GetAllChessPlayers()
@@ -47,7 +51,12 @@ namespace ChessHelper.Infrastructure.Repository.RepositoryPost
             return DbContext.ChessPlayers.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool UpdateChessPlayer(ChessPlayer chessPlayer)
+        Task<bool> IChessPlayerRepository.DeleteChessPlaeyr(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IChessPlayerRepository.UpdateChessPlayer(ChessPlayer chessPlayer)
         {
             throw new NotImplementedException();
         }

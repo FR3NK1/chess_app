@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChessHelper.Domain.Repositories.RepositoriesPost;
+using ChessHelper.Domain.Entities.EntitiesPost;
 using ChessHelper.Infrastructure.Repository.RepositoryPost;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,20 @@ namespace ChessHelper.Controllers
         public IActionResult GetAllChessPlaeyrs()
         {
             return new OkObjectResult(_chessPlayerRepository.GetAllChessPlayers());
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> AddChessPlayers(ChessPlayer chessPlayer)
+        {
+            if (await _chessPlayerRepository.AddChessPlayer(chessPlayer))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
